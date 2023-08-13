@@ -5,15 +5,13 @@ const form = document.querySelector('.form');
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
-    if (shouldResolve) {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (shouldResolve) {
         resolve({ position, delay });
-      }, delay);
-    } else {
-      setTimeout(() => {
+      } else {
         reject({ position, delay });
-      }, delay);
-    }
+      }
+    }, delay);
   });
 }
 
@@ -25,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const stepInput = parseInt(this.elements.step.value);
     const amountInput = parseInt(this.elements.amount.value);
 
-    for (let i = 0; i < amountInput; i++) {
-      const currentDelay = delayInput + i * stepInput;
+    for (let i = 1; i <= amountInput; i++) {
+      const currentDelay = delayInput + (i - 1) * stepInput;
       try {
         const result = await createPromise(i, currentDelay);
         Notiflix.Notify.success(`✅ Fulfilled promise ${result.position} in ${result.delay}ms`);
